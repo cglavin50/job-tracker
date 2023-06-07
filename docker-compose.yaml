@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  web-server:         # backend server container
+    build: ./server   # path
+    env_file:
+      - './.env'
+    ports:
+      - "3000:3000"   # bind port 3000 of host to bridge network for DB access
+      - "8080:8080"   # expose port 8080(configured in .env, can sub in here later) for client-server connection
+    volumes:
+      - .:/usr/src/app
+    command: go run main.go
+  db:                 # postgresql db container
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    env_file:
+      - './db.env'
+
+volumes:
+  postgres-db:

@@ -11,7 +11,7 @@ import (
 
 func init() {
 	// load environment variables
-	err := godotenv.Load()
+	err := godotenv.Load("../.env")
 	if err != nil {
 		log.Fatal("Error loading .env file:", err)
 	}
@@ -27,5 +27,5 @@ func main() {
 		return c.SendString("Hello, World 👋!")
 	})
 
-	log.Fatal(app.Listen(":3000")) //listening on localhost:3000
+	log.Fatal(app.Listen(os.Getenv("PORT"))) //listening on localhost:3000
 }
